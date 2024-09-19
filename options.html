@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extension Settings</title>
+  <script src="options.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="p-4 bg-gray-50">
+  <div class="flex items-center mb-6">
+    <!-- Adding the NotePlan logo -->
+    <img src="noteplan.svg" alt="NotePlan Logo" class="w-12 h-12 mr-4" />
+    <h1 class="text-2xl font-bold">Send URL to NotePlan Settings</h1>
+  </div>
+
+  <!-- To-Do Character Selection with styled label -->
+  <label for="todoCharacter" class="block mb-2 text-lg font-semibold text-gray-700">Select your To-Do Character (will be added before the link):</label>
+  <select id="todoCharacter" class="block w-full p-2 border rounded">
+    <option value="*">*</option>  <!-- Default value -->
+    <option value="+">+</option>
+    <option value="1.">1.</option>
+    <option value="">(None)</option>  <!-- Blank option -->
+  </select>
+  
+
+  <!-- Custom Callback URL Input with styled label -->
+  <label for="callbackUrl" class="block mt-6 mb-2 text-lg font-semibold text-gray-700">Override Callback URL:</label>
+  <input
+    type="text"
+    id="callbackUrl"
+    class="block w-full p-2 border rounded"
+    placeholder="Enter your callback URL"
+  />
+  <p id="urlValidation" class="text-red-600 mt-1 hidden">Invalid URL: Must start with 'noteplan://'</p>
+
+    <!-- Information Note -->
+    <p class="mt-4 text-sm text-gray-600">
+        By default, this extension will use the default callback URL of NotePlan, adding a todo item to the top of today's Daily Note.
+        However, if you're using Jonathan Clark's <a href="https://github.com/NotePlan/plugins/tree/main/jgclark.QuickCapture" class="text-blue-500 underline" target="_blank"></a>QuickCapture plugin</a>, you can use alternative URLs for data entry (for example, to put the item under a specific heading):
+        This assumes you have the plugin installed in NotePlan desktop of course.
+      </p>
+
+  <!-- Example URL and Instructions -->
+  <p class="mt-4 text-sm text-gray-600">
+    For example:<br><code>noteplan://x-callback-url/runPlugin?pluginID=jgclark.QuickCapture&command=quick%20add%20checklist%20under%20heading&arg0=today&arg1=HEADING_NAME&arg2=</code><br>
+    For example, you could modify <code>arg0</code> and <code>arg1</code>, but leave <code>arg2=</code> at the end and paste it in the field above, and the URL and label will be added to the end behind arg2=.
+  </p>
+
+  <!-- Save Button -->
+  <button id="save" class="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
+  <p id="status" class="mt-2 text-green-600 hidden">Settings saved!</p>
+</body>
+</html>
