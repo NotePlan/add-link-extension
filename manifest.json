@@ -3,7 +3,7 @@
   "name": "Send URL to NotePlan",
   "author": "David Wertheimer",
   "description": "Sends the URL of the current tab with a markdown link to NotePlan",
-  "version": "0.2",
+  "version": "0.3",
   "permissions": [
     "activeTab",
     "storage",
