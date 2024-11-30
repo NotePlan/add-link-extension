@@ -41,6 +41,22 @@ function showCustomPrompt(tabUrl, todoCharacter, callbackUrlBase, defaultText) {
   iframe.style.backgroundColor = 'transparent'; // Transparent background
   iframe.allowTransparency = 'true';
 
+  function removeEmail(text) {
+    // Regular expression to match email addresses
+    const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+    
+    // First remove the email
+    let cleanedText = text.replace(emailRegex, '');
+    
+    // Remove double dashes or single dash surrounded by spaces
+    cleanedText = cleanedText.replace(/\s*-\s*-\s*/g, ' - ') // Replace double dashes
+                            .replace(/\s+-\s+/g, ' ') // Remove single dash surrounded by spaces
+                            .replace(/\s+/g, ' ') // Clean up any extra whitespace
+                            .trim();
+    
+    return cleanedText;
+  }
+
   // Append the iframe to the body
   document.body.appendChild(iframe);
 
@@ -97,7 +113,7 @@ function showCustomPrompt(tabUrl, todoCharacter, callbackUrlBase, defaultText) {
                       <div class="mb-4">
                         <label for="link-text" class="block text-sm font-medium leading-6 text-gray-900">Link text:</label>
                         <div class="mt-1">
-                          <input id="link-text" type="text" value="${defaultText}" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                          <input id="link-text" type="text" value="${removeEmail(defaultText)}" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
                       </div>
                       <div class="mb-4">
@@ -142,6 +158,7 @@ function showCustomPrompt(tabUrl, todoCharacter, callbackUrlBase, defaultText) {
     `;
     iframeDoc.head.appendChild(style);
 
+    
     // Get elements within the iframe
     const textBeforeInput = iframeDoc.getElementById('text-before');
     const linkTextInput = iframeDoc.getElementById('link-text');

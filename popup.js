@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function grabUrlAndSendToNotePlan(tabUrl) {
   const userText = prompt("Enter the text to include with the link:");
   if (userText) {
-    const markdownLink = `* [${userText}](${removeEmail(tabUrl)})`;
+    const markdownLink = `* [${removeEmail(userText)}](${removeEmail(tabUrl)})`;
     const xCallbackUrl = `noteplan://x-callback-url/addText?noteDate=today&mode=prepend&openNote=no&text=${encodeURIComponent(
       markdownLink
     )}`;
