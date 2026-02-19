@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send URL to NotePlan</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .bg-primary { background-color: #fb7d0e; }
+    #np-send-button:hover { background-color: #eb640a; }
+    .text-primary { color: #fb7d0e; }
+    .bg-primary-light { background-color: rgb(255 237 213); }
+  </style>
+</head>
+<body class="bg-white" style="width: 380px;">
+  <div class="popup-container">
+    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+      <div class="popup-content">
+        <div class="popup-header flex items-center gap-2 mb-6">
+          <div class="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-primary-light sm:mx-0 sm:h-10 sm:w-10">
+            <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zM19.5 7.125L16.862 4.487M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+            </svg>
+          </div>
+          <h3 class="text-xl font-semibold leading-6 text-gray-900" id="modal-title">Create NotePlan Link</h3>
+        </div>
+        <div class="popup-fields mt-3 text-left">
+          <div class="popup-field-text-before mb-4">
+            <label for="np-text-before" class="block text-sm font-medium leading-6 text-gray-900">Text before:</label>
+            <div class="mt-1">
+              <input id="np-text-before" type="text" autocomplete="off" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+          <div class="popup-field-link-text mb-4">
+            <label for="np-link-text" class="block text-sm font-medium leading-6 text-gray-900">Link text:</label>
+            <div class="mt-1">
+              <input id="np-link-text" type="text" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+          <div class="popup-field-text-after mb-4">
+            <label for="np-text-after" class="block text-sm font-medium leading-6 text-gray-900">Text after:</label>
+            <div class="mt-1">
+              <input id="np-text-after" type="text" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="popup-actions bg-gray-50 px-4 py-3 flex flex-row-reverse">
+      <button id="np-send-button" type="button" class="inline-flex w-full justify-center rounded-md bg-primary px-3 py-2 text-sm font-semibold text-white shadow-sm ml-3 sm:w-auto">Send to NotePlan</button>
+      <button id="np-copy-button" type="button" class="mt-0 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:w-auto">Copy to Clipboard</button>
+    </div>
+    <div id="np-status" class="popup-status px-4 py-2 text-center text-sm" style="display:none;"></div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
