@@ -23,6 +23,15 @@ function removeEmail(text) {
   return cleanedText;
 }
 
+/**
+ * Strip characters that would break a markdown link: [ ] ( )
+ * @param {string} text - The text to sanitize
+ * @returns {string} Text with markdown-breaking characters removed
+ */
+function stripMarkdownLinkChars(text) {
+  return text.replace(/[\[\]\(\)]/g, '');
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   /** @type {HTMLInputElement} */
   const textBeforeInput = document.getElementById("np-text-before");
@@ -49,7 +58,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   } catch (err) {
     console.error("[NP popup] failed to query active tab:", err);
   }
-  linkTextInput.value = removeEmail(tabTitle);
+  linkTextInput.value = stripMarkdownLinkChars(removeEmail(tabTitle));
+
+  // Filter markdown-breaking chars on every input event
+  linkTextInput.addEventListener("input", () => {
+    const pos = linkTextInput.selectionStart;
+    const original = linkTextInput.value;
+    const filtered = stripMarkdownLinkChars(original);
+    if (filtered !== original) {
+      linkTextInput.value = filtered;
+      linkTextInput.selectionStart = linkTextInput.selectionEnd = Math.max(0, pos - (original.length - filtered.length));
+    }
+  });
 
   // --- Load saved settings ---
   let todoCharacter = "*";
@@ -63,6 +83,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.error("[NP popup] failed to load settings:", err);
   }
 
+  // NOTE: autofocus on the "text before" input does not work in Firefox/Zen popups.
+  // The popup panel does not grant focus to child elements reliably.
+  // The HTML autofocus attribute is set as a best-effort fallback.
   textBeforeInput.focus();
 
   // --- Helpers ---
