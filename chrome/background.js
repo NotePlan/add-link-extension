@@ -57,6 +57,10 @@ function showCustomPrompt(tabUrl, todoCharacter, callbackUrlBase, defaultText) {
     return cleanedText;
   }
 
+  function stripMarkdownLinkChars(text) {
+    return text.replace(/[\[\]\(\)]/g, '');
+  }
+
   // Append the iframe to the body
   document.body.appendChild(iframe);
 
@@ -113,8 +117,9 @@ function showCustomPrompt(tabUrl, todoCharacter, callbackUrlBase, defaultText) {
                       <div class="mb-4">
                         <label for="link-text" class="block text-sm font-medium leading-6 text-gray-900">Link text:</label>
                         <div class="mt-1">
-                          <input id="link-text" type="text" value="${removeEmail(defaultText)}" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                          <input id="link-text" type="text" value="${stripMarkdownLinkChars(removeEmail(defaultText))}" class="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                         </div>
+                        <p class="mt-1 text-xs text-gray-400">Characters [ ] ( ) are automatically removed to keep the markdown link valid.</p>
                       </div>
                       <div class="mb-4">
                         <label for="text-after" class="block text-sm font-medium leading-6 text-gray-900">Text after:</label>
@@ -167,6 +172,17 @@ function showCustomPrompt(tabUrl, todoCharacter, callbackUrlBase, defaultText) {
     const copyButton = iframeDoc.getElementById('copy-button');
     const closeButton = iframeDoc.getElementById('close-button');
     const backdrop = iframeDoc.getElementById('backdrop');
+
+    // Filter markdown-breaking chars on every input event
+    linkTextInput.addEventListener('input', () => {
+      const pos = linkTextInput.selectionStart;
+      const original = linkTextInput.value;
+      const filtered = stripMarkdownLinkChars(original);
+      if (filtered !== original) {
+        linkTextInput.value = filtered;
+        linkTextInput.selectionStart = linkTextInput.selectionEnd = Math.max(0, pos - (original.length - filtered.length));
+      }
+    });
 
     // Focus on the first input field
     textBeforeInput.focus();
