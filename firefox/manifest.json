@@ -1,19 +1,26 @@
 {
-  "manifest_version": 3,
+  "manifest_version": 2,
   "name": "Send URL to NotePlan",
   "author": "David Wertheimer",
   "description": "Sends the URL of the current tab with a markdown link to NotePlan",
-  "version": "0.3",
+  "version": "0.4",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "send-url-to-noteplan@dwertheimer",
+      "strict_min_version": "91.0"
+    }
+  },
   "permissions": [
     "activeTab",
     "storage",
-    "scripting"
+    "clipboardWrite"
   ],
   "background": {
-    "service_worker": "background.js"
+    "scripts": ["background.js"]
   },
-  "action": {
-    "default_title": "Send URL to NotePlan"
+  "browser_action": {
+    "default_title": "Send URL to NotePlan",
+    "default_popup": "popup.html"
   },
   "icons": {
     "16": "extension-logo/icon-16.png",
@@ -22,7 +29,7 @@
     "128": "extension-logo/icon-128.png"
   },
   "commands": {
-    "_execute_action": {
+    "_execute_browser_action": {
       "suggested_key": {
         "default": "Alt+Shift+G",
         "mac": "Alt+Shift+G"
@@ -30,5 +37,8 @@
       "description": "Send current tab URL to NotePlan"
     }
   },
-  "options_page": "options.html"
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  }
 }
